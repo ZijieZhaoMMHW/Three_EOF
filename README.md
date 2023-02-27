@@ -2,8 +2,7 @@
 
 Here we show three ways to perform EOF analysis using MATLAB codes.
 
-
-## Data
+## 0. Data
 In this example, we use monthly 3D sst anomaly data during 1979-2020 to perform the EOF analysis. Data are stored as the `ssta` mat file, containing lon, lat, and 3D [91,31,504] sst anomaly data.
 
 ## 1. Direct calculation based on EOF essence
@@ -34,8 +33,18 @@ There, we need to reshape the 3D data (lon-lat-time) into 2D data (time-grid).
 ```
 ssta=(reshape(ssta,91*31,504))';
 ```
+The SST data contain `NaN`, corresponding to lands. We need to identify lands within grids and store them for further application.
+```
+nanindex=isnan(nanmean(ssta));
+ssta=ssta(:,~nanindex);
+```
+Now the SST data contain only SST data over oceans, without `NaN`.
 
-The SST data contains 
+Now we remove the mean in each time point of the SST data and calculate the covariance matrix.
+```
+F=detrend(ssta,0);
+C=F'*F;
+```
 
 
 

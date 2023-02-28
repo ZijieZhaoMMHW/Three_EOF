@@ -45,6 +45,14 @@ Now we remove the mean in each time point of the SST data and calculate the cova
 F=detrend(ssta,0);
 C=F'*F;
 ```
+Then we calculate the eigenvectors and eigenvalues, which are EOFs and explained variance, respectively. The PCs are calculated based on matrix multiplication between EOFs and F.
+```
+[EOFs,D]=eig(C);
+PCs=EOFs'*F';
+```
+After normalization of the eigenvalues D, they are confined to the range [0,1], which provides the proportion of explained variance in a percentage format.
+```
 
+```
 
 

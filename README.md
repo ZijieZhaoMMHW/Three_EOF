@@ -95,4 +95,4 @@ xlim([1 504]);
 set(gca,'fontsize',12,'linewidth',2)
 title('PC1: 34.92%','fontsize',16,'fontname','consolas');
 ```
-
+![Image text](https://github.com/ZijieZhaoMMHW/Three_EOF/blob/main/EOFessence.png)

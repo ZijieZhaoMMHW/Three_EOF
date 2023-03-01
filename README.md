@@ -96,3 +96,9 @@ set(gca,'fontsize',12,'linewidth',2)
 title('PC1: 34.92%','fontsize',16,'fontname','consolas');
 ```
 ![Image text](https://github.com/ZijieZhaoMMHW/Three_EOF/blob/main/EOFessence.png)
+The first EOF mode shows an evidently positive ENSO phases, with a PC time series demonstrating significant correlation with the traditionally defined Nino34 index.
+
+## 2. Calculation based on Principal Component Analysis (PCA)
+The EOF is technically the same as the PCA. In fact, The term "spatial PCA" was initially used to refer to the EOF. Therefore, the EOF analysis can be achieved by using the MATLAB built-in function `pca` for principal component analysis.
+
+

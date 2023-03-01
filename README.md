@@ -52,7 +52,23 @@ PCs=EOFs'*F';
 ```
 After normalization of the eigenvalues D, they are confined to the range [0,1], which provides the proportion of explained variance in a percentage format.
 ```
-
+D=diag(D);
+D=D./nansum(D);
 ```
-
+Then we identify the first EOF mode and PC time series, demonstrating the largest explained variance.
+```
+EOF1=EOFs(:,D==nanmax(D));
+PC1=PCs(D==nanmax(D),:);
+```
+Then we reshape the first EOF mode back to the 2D format, using the land index `nanindex`. 
+```
+sEOF1=NaN(91*31,1);
+sEOF1(~nanindex)=EOF1;
+sEOF1=reshape(sEOF1,91,31);
+```
+After that, the EOF and PC should be scaled to standard units. 
+```
+sEOF1=sEOF1.*nanstd(PC1);
+PC1=PC1./nanstd(PC1);
+```
 

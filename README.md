@@ -71,4 +71,28 @@ After that, the EOF and PC should be scaled to standard units.
 sEOF1=sEOF1.*nanstd(PC1);
 PC1=PC1./nanstd(PC1);
 ```
+Then we write some codes to visualize the results.
+```
+figure
+subplot(2,1,1);
+m_proj('miller','lon',[nanmin(lona) nanmax(lona)],'lat',[nanmin(lata) nanmax(lata)]);
+m_contourf(lona,lata,sEOF1',linspace(-1.4,1.4,200),'linestyle','none');
+m_coast('patch',[0.7 0.7 0.7],'linewidth',2);
+m_grid('linewidth',2,'fontname','consolas');
+colormap(m_colmap('diverging'));
+caxis([-1.4 1.4]);
+s=colorbar('fontname','consolas','fontsize',12);
+title(s,'^{o}C','fontname','consolas');
+set(gca,'fontsize',12)
+title('EOF1: 34.92%','fontsize',16,'fontname','consolas');
+
+subplot(2,1,2);
+plot(1:504,PC1,'r','linewidth',2);
+set(gca,'xtick',[6:60:504],'xticklabels',1980:5:2021,'fontname','consolas','fontsize',12);
+xlabel('Year','fontname','consolas');
+ylabel('PC1','fontname','consolas');
+xlim([1 504]);
+set(gca,'fontsize',12,'linewidth',2)
+title('PC1: 34.92%','fontsize',16,'fontname','consolas');
+```
 

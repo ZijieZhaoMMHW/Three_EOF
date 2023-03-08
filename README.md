@@ -152,3 +152,6 @@ set(gca,'fontsize',12,'linewidth',2)
 title('PC1: 34.92%','fontsize',16,'fontname','consolas');
 ```
 ![Image text](https://github.com/ZijieZhaoMMHW/Three_EOF/blob/main/EOFpca.png)
+
+## 3. Calculation using the Climate Data Toolbox
+The application of the EOF can also be achieved by using some peripherals, such as the [Climate Data Toolbox](https://chadagreene.com/CDT/CDT_Getting_Started.html) developed by Chad Greene.

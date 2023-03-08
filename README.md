@@ -101,4 +101,54 @@ The first EOF mode shows an evidently positive ENSO phases, with a PC time serie
 ## 2. Calculation based on Principal Component Analysis (PCA)
 The EOF is technically the same as the PCA. In fact, The term "spatial PCA" was initially used to refer to the EOF. Therefore, the EOF analysis can be achieved by using the MATLAB built-in function `pca` for principal component analysis.
 
+Similar to the first step, we need to reconstruct the 3D data into 2D format. 
+```
+load('ssta');
+[lats,lons]=meshgrid(lata,lona);
+ssta=ssta.*repmat(sqrt(cosd(lats)),1,1,504);
 
+ssta=(reshape(ssta,91*31,504))';
+nanindex=isnan(nanmean(ssta));
+ssta=ssta(:,~nanindex);
+```
+Then we apply the `pca` function to the 2D SST data.
+```
+F=detrend(ssta,0);
+[coef,score,latent]=pca(F);
+latent=latent./nansum(latent);
+```
+The main outputs of `pca` include `coef`,`score`,and  `latent`. `coef` is the loadings from the PCA, which is just the EOF spatial pattern. `score` is the princpial component series projected to the `coef`. `latent` is principal component variance, which can be used as explained variance for each mode after normalization. 
+
+Then we reshape the first EOF mode back to 2D format and visualize them after standardization.
+```
+scoef1=NaN(91*31,1);
+scoef1(~nanindex)=coef(:,1);
+scoef1=reshape(scoef1,91,31);
+
+score1=score(:,1);
+scoef1=scoef1.*nanstd(score1);
+score1=score1./nanstd(score1);
+
+figure
+subplot(2,1,1);
+m_proj('miller','lon',[nanmin(lona) nanmax(lona)],'lat',[nanmin(lata) nanmax(lata)]);
+m_contourf(lona,lata,scoef1',linspace(-1.4,1.4,200),'linestyle','none');
+m_coast('patch',[0.7 0.7 0.7],'linewidth',2);
+m_grid('linewidth',2,'fontname','consolas');
+colormap(m_colmap('diverging'));
+caxis([-1.4 1.4]);
+s=colorbar('fontname','consolas','fontsize',12);
+title(s,'^{o}C','fontname','consolas');
+set(gca,'fontsize',12)
+title('EOF1: 34.92%','fontsize',16,'fontname','consolas');
+
+subplot(2,1,2);
+plot(1:504,score1,'r','linewidth',2);
+set(gca,'xtick',[6:60:504],'xticklabels',1980:5:2021,'fontname','consolas','fontsize',12);
+xlabel('Year','fontname','consolas');
+ylabel('PC1','fontname','consolas');
+xlim([1 504]);
+set(gca,'fontsize',12,'linewidth',2)
+title('PC1: 34.92%','fontsize',16,'fontname','consolas');
+```
+![Image text](https://github.com/ZijieZhaoMMHW/Three_EOF/blob/main/EOFpca.png)
